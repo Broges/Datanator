@@ -1,10 +1,9 @@
+import csv
+
 csv_rows = [
-    ["29/09/2020 09:00","Isle of Wight","Paul Kifer","Regular Luxury hot chocolate - 2.40, Regular Flavoured hot chocolate - Hazelnut - 2.60",5.00,"CASH"],
+    ["29/09/2020 09:00","Isle of Wight","Paul Kifer","Regular Luxury hot chocolate - 2.40, Regular Flavoured hot chocolate - Hazelnut -£2.60",5.00,"CASH"],
     ["29/09/2020 09:00","Isle of Wight","Thomas Mcdermott", "Frappes - Strawberries & Cream - 2.75",2.75,"CARD","46975498282144910"]
 ]
-
-
-
 def func():
     transaction_id = 1
     basket_id = 1
@@ -26,3 +25,9 @@ data = func()
 
 for line in data:
     print(line)
+
+with open('tmp/basket.csv', mode='w', encoding='utf-8-sig', newline='') as basket_file:
+    basket_writer = csv.writer(basket_file, delimiter=',')
+    for line in data:
+        basket_writer.writerow([line[0], line[1], line[2], line[3]])
+    basket_file.close()
