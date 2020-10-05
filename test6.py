@@ -4,7 +4,6 @@ csv_rows = [
     ["29/09/2020 09:00","Isle of Wight","Paul Kifer","Regular Luxury hot chocolate - 2.40, Regular Flavoured hot chocolate - Hazelnut -£2.60",5.00,"CASH"],
     ["29/09/2020 09:00","Isle of Wight","Thomas Mcdermott", "Frappes - Strawberries & Cream - 2.75",2.75,"CARD","46975498282144910"]
 ]
-
 def func():
     transaction_id = 1
     basket_id = 1
