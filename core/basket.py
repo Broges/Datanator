@@ -2,8 +2,6 @@ from file_handling.functions import read_csv
 from core.basket_class import Basket
 
 def make_basket_list():
-    lst = []
-
     data = read_csv('tmp/temp.csv') # /tmp/temp.csv
     lst = clean_basket_data(data)
 

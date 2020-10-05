@@ -4,11 +4,10 @@ from datetime import date
 from core.basket_class import Basket
 from core.transaction_class import Transaction
 
-def get_csv():
+def get_csv(date):
     pass
     # bucketname = 'cafe-transactions' # replace with your bucket name
     # #date = date.today()
-    # date = "29-09-2020"
     # filename = f'isle_of_wight_{date}_16-30-00.csv' # replace with your object key
     # s3 = boto3.resource('s3')
     # s3.Bucket(bucketname).download_file(filename, '/tmp/temp.csv')

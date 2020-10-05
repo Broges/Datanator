@@ -2,8 +2,6 @@ from file_handling.functions import read_csv
 from core.transaction_class import Transaction
 
 def make_transactions_list():
-    lst = []
-
     data = read_csv('tmp/temp.csv') # /tmp/temp.csv
     lst = clean_transaction_data(data)
 
