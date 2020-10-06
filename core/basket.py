@@ -1,35 +1,25 @@
-import csv
 from file_handling.functions import read_csv
+from core.basket_class import Basket
 
+def make_basket_list(date):
+    filename = f"tmp/isle_of_wight_{date}_16-30-00.csv" # /tmp/ for lambda
+    data = read_csv(filename)
+    lst = clean_basket_data(data)
 
-class Basket:
-    def __init__(self, basket_id, transaction_id, basket_item, price):
-        self.basket_id = basket_id
-        self.transaction_id = transaction_id
-        self.basket_item = basket_item
-        self.price = price
-    def __repr__(self):
-        return (f"{self.basket_id}, {self.transaction_id}, {self.basket_item}, £{self.price}")
+    return lst
 
-def read_basket(clean_data):
+def clean_basket_data(data):
+    lst = []
     transaction_id = 1
     basket_id = 1
-    
-    csv_rows = read_csv('oo.csv')
-    transaction_id = 1
-    basket_id = 1
-    clean_data = []
-    for row in csv_rows:
+    for row in data:
         combined_data = (row[3]).split(", ")
         for i in range(len(combined_data)):
-            s = combined_data[i]
-            product_name = ''.join([i for i in s if not (i.isdigit() or i == ".")])
+            string = combined_data[i]
+            product_name = ''.join([i for i in string if not (i.isdigit() or i == ".")])
             price = combined_data[i].strip(product_name)
             product_name = product_name[:-3]
-            clean_data.append([basket_id, transaction_id, product_name, float(price)])
+            lst.append(Basket(basket_id, transaction_id, product_name, float(price)))
             basket_id += 1
-            transaction_id += 1
-    return clean_data
-# data = func()
-# for line in data:
-#     print(line)
+        transaction_id += 1
+    return lst
