@@ -1,0 +1,17 @@
+service: group-2
+plugins:
+  - serverless-python-requirements
+
+provider:
+  name: aws
+  stage: dev
+  region: eu-west-1
+
+package:
+  individually: true
+
+functions:
+  team2-redshift-lambda:
+    runtime: python3.8
+    handler: handler.start
+    module: team2
