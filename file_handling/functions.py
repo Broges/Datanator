@@ -18,7 +18,7 @@ def read_csv(file_name):
         data = []
         for row in reader:
             data.append(row)
-        return data
+    return data
 
 def write_csv(csv_name, obj_list):
     with open(csv_name, mode='w', encoding='utf-8-sig', newline='') as file:
@@ -36,3 +36,4 @@ def save_to_bucket(name_csv):
     # file_name = name_csv.replace('/tmp/', '')
     # s3 = boto3.resource('s3')
     # s3.meta.client.upload_file(name_csv, 'cafe-etl', file_name)
+
