@@ -1,4 +1,4 @@
-# import boto3
+import boto3
 import csv
 from datetime import date
 from core.basket_class import Basket
@@ -6,11 +6,13 @@ from core.transaction_class import Transaction
 
 def get_csv(date):
     pass
-    # bucketname = 'cafe-transactions' # replace with your bucket name
-    # #date = date.today()
-    # filename = f'isle_of_wight_{date}_16-30-00.csv' # replace with your object key
-    # s3 = boto3.resource('s3')
-    # s3.Bucket(bucketname).download_file(filename, '/tmp/temp.csv')
+    bucketname = 'cafe-transactions' # replace with your bucket name
+    #date = date.today()
+    filename = f'isle_of_wight_{date}_16-30-00.csv' # replace with your object key
+    s3 = boto3.resource('s3')
+    newfile = f"/tmp/isle_of_wight_{date}_16-30-00.csv"
+    s3.Bucket(bucketname).download_file(filename,newfile)
+
 
 def read_csv(file_name):
     with open(file_name) as file:
@@ -32,8 +34,7 @@ def write_csv(csv_name, obj_list):
         file.close()
 
 def save_to_bucket(name_csv):
-    pass
-    # file_name = name_csv.replace('/tmp/', '')
-    # s3 = boto3.resource('s3')
-    # s3.meta.client.upload_file(name_csv, 'cafe-etl', file_name)
+    file_name = name_csv.replace('/tmp/', '')
+    s3 = boto3.resource('s3')
+    s3.meta.client.upload_file(name_csv, 'cafe-etl', file_name)
 

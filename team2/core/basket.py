@@ -2,7 +2,7 @@ from file_handling.functions import read_csv
 from core.basket_class import Basket
 
 def make_basket_list(date):
-    filename = f"tmp/isle_of_wight_{date}_16-30-00.csv" # /tmp/ for lambda
+    filename = f"/tmp/isle_of_wight_{date}_16-30-00.csv" # /tmp/ for lambda
     data = read_csv(filename)
     lst = clean_basket_data(data)
 
