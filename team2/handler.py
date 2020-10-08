@@ -77,6 +77,14 @@ def start(event, context):
     print("connected")
 
     try:
+        cursor=conn.cursor()
+        cursor.execute("SELECT basket_ID FROM basket_data_team2 ORDER BY basket_ID DESC LIMIT 1;")
+        data = cursor.fetchone()
+        print(data)
+    except Exception as ERROR:
+        print("Error with id exec %s" %ERROR)
+
+    try:
         cursor = conn.cursor()
         cursor.execute("TRUNCATE TABLE transaction_data_team2;")
         cursor.execute("TRUNCATE TABLE basket_data_team2;")

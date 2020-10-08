@@ -36,12 +36,12 @@ def save_to_bucket(name_csv):
 
 def make_new_filenames(file_name):
     temp_1 = file_name.strip('.csv')
-    temp_2 = temp1.split('')
+    temp_2 = temp_1.split('')
     time = temp_2[-1]
     date = temp_2[-2]
-    name = temp1.replace(time,'').replace(date,'').strip('')
+    name = temp_1.replace(time,'').replace(date,'').strip('')
 
-    temp3 = name.split('')
+    temp_3 = name.split('')
     code = ""
     if len(temp_3) > 1:
         for foo in temp_3:
@@ -52,4 +52,4 @@ def make_new_filenames(file_name):
     transactionfilename = f"/tmp/team2{code}_{date}_transaction.csv" # team2_transaction_iow_30-09-2020.csv
     basketfilename = f"/tmp/team2{code}_{date}_basket.csv" # team2_basket_iow_30-09-2020.csv
 
-    return transaction_filename, basket_filename
+    return transactionfilename, basketfilename
