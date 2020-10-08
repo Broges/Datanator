@@ -11,39 +11,8 @@ load_dotenv()
 
 
 def start(event, context):
-    today = datetime.datetime.utcnow().date()
-    date = today - datetime.timedelta(days=2)
-    date = date.strftime("%d-%m-%Y")
-    print(date)
-    load_dotenv()
-
-
-    s3 = boto3.resource('s3')
-    my_bucket = s3.Bucket('cafe-transactions')
-
-    filename_list = []
-    for my_bucket_object in my_bucket.objects.all():
-        filename_list.append(my_bucket_object.key)
-
-    print(filename_list)
-
-    for file_ in filename_list:
-        if date in file_:
-            get_csv(file_)
-
-            transaction_filename, basket_filename = make_new_filenames(file_)
-
-            transactions_list = make_transactions_list(date)
-            basket_list = make_basket_list(date)
-
-            write_csv(transaction_filename, transactions_list)
-            write_csv(basket_filename, basket_list)
-
-            save_to_bucket(transaction_filename)
-            save_to_bucket(basket_filename)
-
-
-    host = os.getenv("DB_HOST")
+    
+    host = os.getenv("DB_HOST") 
     port = int(os.getenv("DB_PORT"))
     DbUser = os.getenv("DB_USER")
     passwd = os.getenv("DB_PASS")
@@ -61,7 +30,6 @@ def start(event, context):
         print("Credentials issue: <%s>" %ERROR)
         sys.exit(1)
 
-    print("got creds")
 
     try:
         conn=psycopg2.connect(
@@ -79,10 +47,53 @@ def start(event, context):
     try:
         cursor=conn.cursor()
         cursor.execute("SELECT basket_ID FROM basket_data_team2 ORDER BY basket_ID DESC LIMIT 1;")
-        data = cursor.fetchone()
-        print(data)
+        rawData = cursor.fetchone()
+        rawData=str(rawData)
+        filteredData = rawData.strip(",()")
+        print(filteredData)
     except Exception as ERROR:
         print("Error with id exec %s" %ERROR)
+
+    
+    
+    
+    today = datetime.datetime.utcnow().date()
+    date = today - datetime.timedelta(days=2)
+    date = date.strftime("%d-%m-%Y")
+    load_dotenv()
+
+
+    s3 = boto3.resource('s3')
+    my_bucket = s3.Bucket('cafe-transactions')
+
+    filename_list = []
+    for my_bucket_object in my_bucket.objects.all():
+        filename_list.append(my_bucket_object.key)
+
+
+    for file_ in filename_list:
+        if date in file_:
+            get_csv(file_)
+
+            transaction_filename, basket_filename = make_new_filenames(file_)
+
+            transactions_list = make_transactions_list(date)
+            basket_list = make_basket_list(date)
+
+            write_csv(transaction_filename, transactions_list)
+            write_csv(basket_filename, basket_list)
+
+            save_to_bucket(transaction_filename)
+            save_to_bucket(basket_filename)
+
+
+    
+
+
+
+    
+
+
 
     try:
         cursor = conn.cursor()
@@ -97,5 +108,4 @@ def start(event, context):
         print("Execution error: <%s>" %ERROR)
         sys.exit(1)
 
-    print("executed statements")
     return

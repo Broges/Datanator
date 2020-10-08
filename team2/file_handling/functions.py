@@ -35,21 +35,24 @@ def save_to_bucket(name_csv):
     s3.meta.client.upload_file(name_csv, 'cafe-etl', file_name)
 
 def make_new_filenames(file_name):
+
     temp_1 = file_name.strip('.csv')
-    temp_2 = temp_1.split('')
+    temp_2 = temp_1.split('_')
     time = temp_2[-1]
     date = temp_2[-2]
-    name = temp_1.replace(time,'').replace(date,'').strip('')
-
-    temp_3 = name.split('')
+    name = temp_1.replace(time,'').replace(date,'').strip('_')
+    
+    temp_3 = name.split('_')
     code = ""
     if len(temp_3) > 1:
         for foo in temp_3:
+
             code = code + foo[0]
+            
     else:
         code = name[0:3]
 
-    transactionfilename = f"/tmp/team2{code}_{date}_transaction.csv" # team2_transaction_iow_30-09-2020.csv
-    basketfilename = f"/tmp/team2{code}_{date}_basket.csv" # team2_basket_iow_30-09-2020.csv
+    transactionfilename = f"/tmp/team2_{code}_{date}_transaction.csv" # team2_transaction_iow_30-09-2020.csv
+    basketfilename = f"/tmp/team2_{code}_{date}_basket.csv" # team2_basket_iow_30-09-2020.csv
 
     return transactionfilename, basketfilename
