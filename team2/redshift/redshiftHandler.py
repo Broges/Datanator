@@ -2,6 +2,7 @@ import boto3
 import os
 import sys
 import psycopg2
+import psycopg2.extras
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -54,23 +55,44 @@ class Redshift:
             print("Error with id exec %s" %ERROR)
         return filteredData
 
-    def redshiftExecute(self):
+    def redshiftTruncate(self):
         try:
             cursor = conn.cursor()
             cursor.execute("TRUNCATE TABLE transaction_data_team2;")
             cursor.execute("TRUNCATE TABLE basket_data_team2;")
-            cursor.execute("COPY basket_data_team2 FROM 's3://cafe-etl/basket' CREDENTIALS 'aws_access_key_id=AKIAYNWCQEFI3TSFRR44;aws_secret_access_key=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' csv IGNOREHEADER 1;")
-            cursor.execute("COPY transaction_data_team2 FROM 's3://cafe-etl/transaction' CREDENTIALS 'aws_access_key_id=AKIAYNWCQEFI3TSFRR44;aws_secret_access_key=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' csv IGNOREHEADER 1;")
             cursor.close()
             conn.commit()
         except Exception as ERROR:
-            print("Execution error: <%s>" %ERROR)
-            sys.exit(1)
+            print("Truncate error: <%s>" %ERROR)
+            
 
     def closeRedshiftConnection(self):
         try:
             conn.close()
         except Exception as ERROR:
             print("Error closing DB connection: <%s>" %ERROR)
+
+    def importDataToBasketTable(self,obj):
+        
+        try:
+            cursor = conn.cursor()
+            query="INSERT INTO basket_data_team2 (basket_id,transaction_id,basket,total_cost) VALUES %s"
+            data=[(obj.basket_id,obj.transaction_id,obj.basket_item,obj.price)]
+            psycopg2.extras.execute_values(cursor,query,data)
+            cursor.close()
+            conn.commit()
+        except Exception as ERROR:
+            print("Execution error with basket table: <%s>" %ERROR)
+
+    def importDataToTransactionTable(self,obj):
+        try:
+            cursor = conn.cursor()
+            query="INSERT INTO transaction_data_team2 (transaction_id,location,customer_name,date,total_cost) VALUES %s"
+            data=[(obj.transaction_id,obj.location,obj.customer_name,obj.date, obj.pay_amount)]
+            psycopg2.extras.execute_values(cursor,query,data)
+            cursor.close()
+            conn.commit()
+        except Exception as ERROR:
+            print("Execution error with transaction table: <%s>" %ERROR)
 
 redshiftHandler=Redshift()
