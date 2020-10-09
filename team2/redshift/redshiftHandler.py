@@ -42,8 +42,6 @@ class Redshift:
             print("Connection issue: <%s>" %ERROR)
             sys.exit(1)
 
-        
-
     def redshiftGetFinalBasketID(self):
         try:
             cursor=conn.cursor()
@@ -72,26 +70,29 @@ class Redshift:
         except Exception as ERROR:
             print("Error closing DB connection: <%s>" %ERROR)
 
-    def importDataToBasketTable(self,obj):
-        
+    def importDataToBasketTable(self,list):
+
         try:
             cursor = conn.cursor()
-            query="INSERT INTO basket_data_team2 (basket_id,transaction_id,basket,total_cost) VALUES %s"
-            data=[(obj.basket_id,obj.transaction_id,obj.basket_item,obj.price)]
-            psycopg2.extras.execute_values(cursor,query,data)
+            query="INSERT INTO basket_data_team2 VALUES %s"#creates the query without values
+            data=[(obj.basket_id,obj.transaction_id,obj.basket_item,obj.price) for obj in list]#iterates through every obj in list, puts their attributes as values
+            psycopg2.extras.execute_values(cursor,query,data)#combines all vars together to create entire sql query
             cursor.close()
-            conn.commit()
+            conn.commit()#pushes changes to DB
+
         except Exception as ERROR:
             print("Execution error with basket table: <%s>" %ERROR)
 
-    def importDataToTransactionTable(self,obj):
+    def importDataToTransactionTable(self,list):
+
         try:
             cursor = conn.cursor()
-            query="INSERT INTO transaction_data_team2 (transaction_id,location,customer_name,date,total_cost) VALUES %s"
-            data=[(obj.transaction_id,obj.location,obj.customer_name,obj.date, obj.pay_amount)]
-            psycopg2.extras.execute_values(cursor,query,data)
+            query="INSERT INTO transaction_data_team2 VALUES %s" #creates the query
+            data=[(obj.transaction_id,obj.location,obj.customer_name,obj.date, obj.pay_amount) for obj in list] #iterates through every object in list, grabs their attributes and puts them as values
+            psycopg2.extras.execute_values(cursor,query,data)#combines all vars together to create entire sql query
             cursor.close()
-            conn.commit()
+            conn.commit() #pushes the code to the DB
+
         except Exception as ERROR:
             print("Execution error with transaction table: <%s>" %ERROR)
 

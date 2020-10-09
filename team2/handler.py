@@ -33,17 +33,14 @@ def start(event, context):
 
             transactions_list = make_transactions_list(date)
             basket_list = make_basket_list(date)
-            print("started truncate")
-            redshiftHandler.redshiftTruncate()
-            print("truncate successful")
 
-            for obj in basket_list:
-                redshiftHandler.importDataToBasketTable(obj)
-            print("basket done")
+            redshiftHandler.redshiftTruncate()#calls method to truncate both tables
 
-            for obj in transactions_list:
-                redshiftHandler.importDataToTransactionTable(obj)
-            print("transactions done")
+            redshiftHandler.importDataToBasketTable(basket_list)#imports all basket objects to basket table
+            
+            redshiftHandler.importDataToTransactionTable(transactions_list)#imports all transaction objects to transaction table
+            
+
             #write_csv(transaction_filename, transactions_list)
             #write_csv(basket_filename, basket_list)
 
