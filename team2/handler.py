@@ -10,16 +10,8 @@ import datetime
 
 def start(event, context):
     
-    redshiftHandler.redshiftConnector()
+    redshiftHandler.redshiftConnector() #gets credentials, and connects to redshift, keeps connection open
 
-
-    
-
-    
-
-    
-    
-    
     today = datetime.datetime.utcnow().date()
     date = today - datetime.timedelta(days=2)
     date = date.strftime("%d-%m-%Y")
@@ -42,13 +34,20 @@ def start(event, context):
             transactions_list = make_transactions_list(date)
             basket_list = make_basket_list(date)
 
-            write_csv(transaction_filename, transactions_list)
-            write_csv(basket_filename, basket_list)
+            redshiftHandler.redshiftTruncate()#calls method to truncate both tables
 
-            save_to_bucket(transaction_filename)
-            save_to_bucket(basket_filename)
+            redshiftHandler.importDataToBasketTable(basket_list)#imports all basket objects to basket table
+            
+            redshiftHandler.importDataToTransactionTable(transactions_list)#imports all transaction objects to transaction table
+            
 
+            #write_csv(transaction_filename, transactions_list)
+            #write_csv(basket_filename, basket_list)
 
-    redshiftHandler.closeRedshiftConnection()
+            #save_to_bucket(transaction_filename)
+            #save_to_bucket(basket_filename)
+
+   
+    redshiftHandler.closeRedshiftConnection()#closes connection to redshift
 
     return

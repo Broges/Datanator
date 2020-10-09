@@ -2,6 +2,7 @@ import boto3
 import os
 import sys
 import psycopg2
+import psycopg2.extras
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -41,8 +42,6 @@ class Redshift:
             print("Connection issue: <%s>" %ERROR)
             sys.exit(1)
 
-        
-
     def redshiftGetFinalBasketID(self):
         try:
             cursor=conn.cursor()
@@ -54,23 +53,47 @@ class Redshift:
             print("Error with id exec %s" %ERROR)
         return filteredData
 
-    def redshiftExecute(self):
+    def redshiftTruncate(self):
         try:
             cursor = conn.cursor()
             cursor.execute("TRUNCATE TABLE transaction_data_team2;")
             cursor.execute("TRUNCATE TABLE basket_data_team2;")
-            cursor.execute("COPY basket_data_team2 FROM 's3://cafe-etl/basket' CREDENTIALS 'aws_access_key_id=AKIAYNWCQEFI3TSFRR44;aws_secret_access_key=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' csv IGNOREHEADER 1;")
-            cursor.execute("COPY transaction_data_team2 FROM 's3://cafe-etl/transaction' CREDENTIALS 'aws_access_key_id=AKIAYNWCQEFI3TSFRR44;aws_secret_access_key=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' csv IGNOREHEADER 1;")
             cursor.close()
             conn.commit()
         except Exception as ERROR:
-            print("Execution error: <%s>" %ERROR)
-            sys.exit(1)
+            print("Truncate error: <%s>" %ERROR)
+            
 
     def closeRedshiftConnection(self):
         try:
             conn.close()
         except Exception as ERROR:
             print("Error closing DB connection: <%s>" %ERROR)
+
+    def importDataToBasketTable(self,list):
+
+        try:
+            cursor = conn.cursor()
+            query="INSERT INTO basket_data_team2 VALUES %s"#creates the query without values
+            data=[(obj.basket_id,obj.transaction_id,obj.basket_item,obj.price) for obj in list]#iterates through every obj in list, puts their attributes as values
+            psycopg2.extras.execute_values(cursor,query,data)#combines all vars together to create entire sql query
+            cursor.close()
+            conn.commit()#pushes changes to DB
+
+        except Exception as ERROR:
+            print("Execution error with basket table: <%s>" %ERROR)
+
+    def importDataToTransactionTable(self,list):
+
+        try:
+            cursor = conn.cursor()
+            query="INSERT INTO transaction_data_team2 VALUES %s" #creates the query
+            data=[(obj.transaction_id,obj.location,obj.customer_name,obj.date, obj.pay_amount) for obj in list] #iterates through every object in list, grabs their attributes and puts them as values
+            psycopg2.extras.execute_values(cursor,query,data)#combines all vars together to create entire sql query
+            cursor.close()
+            conn.commit() #pushes the code to the DB
+
+        except Exception as ERROR:
+            print("Execution error with transaction table: <%s>" %ERROR)
 
 redshiftHandler=Redshift()
