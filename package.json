@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/data-engineering-bir-1/team-2-project/issues"
   },
-  "homepage": "https://github.com/data-engineering-bir-1/team-2-project#readme"
+  "homepage": "https://github.com/data-engineering-bir-1/team-2-project#readme",
+  "dependencies": {
+    "serverless-python-requirements": "^5.1.0"
+  }
 }
