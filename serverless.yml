@@ -11,7 +11,21 @@ package:
   individually: true
 
 functions:
-  team2-redshift-lambda:
-    runtime: python3.8
-    handler: handler.start
-    module: team2
+    # Team-2-Extract-Lambda: #Lambda name 
+    #   runtime: python3.8
+    #   handler: handler.start
+    #   module: extract
+    
+    # Team2-Transform-Lambda:
+    #   runtime: python3.8
+    #   handler: handler.start
+    #   module: transform
+    #   events:
+    #     - sqs: arn:aws:sqs:eu-west-1:579154747729:Team2-extract-to-tranform
+
+    Team-2-Load-Lambda:
+      runtime: python3.8
+      handler: handler.lambda_handler
+      module: load
+      events:
+        - sqs: arn:aws:sqs:eu-west-1:579154747729:Team2-tranform-to-load
