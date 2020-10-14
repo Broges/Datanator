@@ -28,4 +28,4 @@ functions:
       handler: handler.lambda_handler
       module: load
       events:
-        - sqs: arn:aws:sqs:eu-west-1:579154747729:Team2-tranform-to-load
+        - sqs: arn:aws:sqs:eu-west-1:579154747729:Team2-New-Transform-To-Load
