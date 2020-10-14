@@ -34,7 +34,7 @@ def lambda_handler(event,context):
 
     
     redshiftHandler.redshiftConnector()
-    redshiftHandler.redshiftTruncate()
     
     redshiftHandler.importDataToTransactionTable(listOfTransactionObjects)
     redshiftHandler.importDataToBasketTable(listOfBasketObjects)
+    redshiftHandler.closeRedshiftConnection()
