@@ -5,33 +5,20 @@ from core.transaction import Transaction
 
 def lambda_handler(event,context):
 
-
-    allData = recieve_sqs_message(event)
-    bigData = allData[2:-3]
-    #bothLists[0] = basket
-    #bothLists[1] = transactions
+    the_message = recieve_sqs_message(event)
+    bigData = the_message[2:-2]
     
-    bothLists = bigData.split(']],')
-    bothLists[0] += "]"
-    bothLists[0] = bothLists[0][1:-1]
-    basketItems = bothLists[0].split('], [')
-    
-    bothLists[1] += "]"
-    bothLists[1] = bothLists[1][3:-1]
-    transactionItems = bothLists[1].split('], [')
-    
-    listOfBasketObjects = []
-    for obj in basketItems:
-        attributes = obj.split(',')
-        basketObject = Basket(attributes[0],attributes[1],attributes[2],attributes[3])
-        listOfBasketObjects.append(basketObject)
-    
-    listOfTransactionObjects=[]
-    for obj in transactionItems:
-        attributes = obj.split(',')
-        transactionObject = Transaction(attributes[0],attributes[1],attributes[2],attributes[3],attributes[4])
-        listOfTransactionObjects.append(transactionObject)
-
+    all_data = bigData.split('], [')
+    for item in all_data: #has the 4 thigns 
+        attributes = item.split(',')
+        if len(attributes) == 4:
+            listOfBasketObjects = []
+            basketObject = Basket(attributes[0],attributes[1],attributes[2],attributes[3])
+            listOfBasketObjects.append(basketObject)            
+        elif len(attributes) == 5:
+            listOfTransactionObjects=[]
+            transactionObject = Transaction(attributes[0],attributes[1],attributes[2],attributes[3],attributes[4])
+            listOfTransactionObjects.append(transactionObject)
     
     redshiftHandler.redshiftConnector()
     
