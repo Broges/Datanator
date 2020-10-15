@@ -14,7 +14,7 @@ def lambda_handler(event,context):
     for item in all_data:
         attributes = item.split(',')
         if len(attributes) == 4:
-            basketObject = Basket(attributes[0],attributes[1],attributes[2],attributes[3])
+            basketObject = Basket(attributes[0],attributes[1].replace(' ', ''),attributes[2],attributes[3])
             listOfBasketObjects.append(basketObject)
             if item == all_data[-1]:
                 redshiftHandler.importDataToBasketTable(listOfBasketObjects)
