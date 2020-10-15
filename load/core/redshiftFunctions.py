@@ -74,8 +74,8 @@ class Redshift:
 
         try:
             cursor = conn.cursor()
-            query="INSERT INTO basket_data_team2 VALUES %s"#creates the query without values
-            data=[(obj.basket_id,obj.transaction_id,obj.basket_item,obj.price) for obj in list]#iterates through every obj in list, puts their attributes as values
+            query="INSERT INTO basket_data_team2 (transaction_id, basket, total_cost) VALUES %s"#creates the query without values
+            data=[(obj.transaction_id,obj.basket_item,obj.price) for obj in list]#iterates through every obj in list, puts their attributes as values
             psycopg2.extras.execute_values(cursor,query,data)#combines all vars together to create entire sql query
             cursor.close()
             conn.commit()#pushes changes to DB
