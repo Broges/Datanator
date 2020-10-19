@@ -21,6 +21,7 @@ var/
 .serverless
 
 node_modules
+load
 team2
 extract
 practice.py
