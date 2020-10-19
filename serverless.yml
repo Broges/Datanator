@@ -11,7 +11,7 @@ package:
   individually: true
 
 functions:
-    Team-2-Extract-Lambda:
+    Team-2-Extract-Lambda2:
       runtime: python3.8
       handler: lambda_function.lambda_handler
       module: extract
@@ -26,7 +26,7 @@ functions:
         - sqs: arn:aws:sqs:eu-west-1:579154747729:Team2-extract-to-tranform
 
     
-    Team2-Transform-Lambda:
+    Team2-Transform-Lambda2:
       runtime: python3.8
       handler: lambda_function.lambda_handler
       module: transform
@@ -35,7 +35,7 @@ functions:
       destinations:
         - sqs: arn:aws:sqs:eu-west-1:579154747729:Team2-New-Transform-To-Load
 
-    Team-2-Load-Lambda:
+    Team-2-Load-Lambda2:
       runtime: python3.8
       handler: handler.lambda_handler
       module: load
