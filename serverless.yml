@@ -11,17 +11,17 @@ package:
   individually: true
 
 functions:
-    # Team-2-Extract-Lambda: #Lambda name 
-    #   runtime: python3.8
-    #   handler: lambda_function.lambda_handler
-    #   module: extract
-    
-    Team2-Transform-Lambda:
+    Team-2-Extract-Lambda: #Lambda name 
       runtime: python3.8
-      handler: handler.start
-      module: transform
-      events:
-        - sqs: arn:aws:sqs:eu-west-1:579154747729:Team2-extract-to-tranform
+      handler: lambda_function.lambda_handler
+      module: extract
+    
+    # Team2-Transform-Lambda:
+    #   runtime: python3.8
+    #   handler: handler.start
+    #   module: transform
+    #   events:
+    #     - sqs: arn:aws:sqs:eu-west-1:579154747729:Team2-extract-to-tranform
 
     # Team-2-Load-Lambda:
     #   runtime: python3.8
