@@ -24,7 +24,7 @@ functions:
             - suffix: .csv
           existing: true
       destinations:
-        -sqs: arn:aws:sqs:eu-west-1:579154747729:Team2-extract-to-tranform
+        - sqs: arn:aws:sqs:eu-west-1:579154747729:Team2-extract-to-tranform
 
     
     Team2-Transform-Lambda:
@@ -34,7 +34,7 @@ functions:
       events:
         - sqs: arn:aws:sqs:eu-west-1:579154747729:Team2-extract-to-tranform
       destinations:
-        -sqs: arn:aws:sqs:eu-west-1:579154747729:Team2-New-Transform-To-Load
+        - sqs: arn:aws:sqs:eu-west-1:579154747729:Team2-New-Transform-To-Load
 
     Team-2-Load-Lambda:
       runtime: python3.8
