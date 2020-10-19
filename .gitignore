@@ -21,8 +21,8 @@ var/
 .serverless
 
 node_modules
-load
 team2
-extract
 practice.py
 test_load_handler_test,py
+
+.DS_Store
