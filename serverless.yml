@@ -42,3 +42,9 @@ functions:
       module: load
       events:
         - sqs: arn:aws:sqs:eu-west-1:579154747729:Team2-New-Transform-To-Load
+      enviroment:
+        DB_CLUSTER: bir1-cluster
+        DB_HOST: 10.0.1.223 
+        DB_NAME: dev 
+        DB_PORT: 5439 
+        DB_USER: awsuser
