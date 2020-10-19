@@ -20,7 +20,6 @@ functions:
           bucket: cafe-transactions-group-2
           event: s3:ObjectCreated:*
           rules:
-            - prefix: uploads/
             - suffix: .csv
           existing: true
       destinations:
