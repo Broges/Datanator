@@ -7,6 +7,7 @@ provider:
   name: aws
   stage: dev
   region: eu-west-1
+  role: arn:aws:iam::579154747729:role/service-role/Bir-Team-2-role-ix1m4cpx
 
 package:
   individually: true
@@ -17,20 +18,19 @@ functions:
       handler: lambda_function.lambda_handler
       module: extract
       # functions:
-      destinations:
-        onSuccess: arn:aws:sqs:eu-west-1:579154747729:Team2extracttotranform
-      iamRoleStatements:
-        - Effect: 'Allow'
-          Action:
-            - sqs:SendMessage
-          Resource: !GetAtt Team2extracttotranform.Arn
-        - Effect: 'Allow'
-          Action:
-            - s3:Get*
-            - s3:List*
-          Resource:
-            - arn:aws:s3:::cafe-transactions-group-2
-            - arn:aws:s3:::cafe-transactions-group-2/*
+      
+      # iamRoleStatements:
+      #   - Effect: 'Allow'
+      #     Action:
+      #       - sqs:SendMessage
+      #     Resource: !GetAtt Team2extracttotranform.Arn
+      #   - Effect: 'Allow'
+      #     Action:
+      #       - s3:Get*
+      #       - s3:List*
+      #     Resource:
+      #       - arn:aws:s3:::cafe-transactions-group-2
+      #       - arn:aws:s3:::cafe-transactions-group-2/*
       events:
         - s3:
           bucket: cafe-transactions-group-2
@@ -38,6 +38,8 @@ functions:
           rules:
             - suffix: .csv
           existing: true
+      destinations:
+        onSuccess: arn:aws:sqs:eu-west-1:579154747729:Team2extracttotranform
 
     Team2-Transform-Lambda:
       runtime: python3.8
@@ -47,13 +49,13 @@ functions:
         - sqs: arn:aws:sqs:eu-west-1:579154747729:Team2tranformtoload
       destinations:
         onSuccess: arn:aws:sqs:eu-west-1:579154747729:Team2tranformtoload
-      iamRoleStatements: # IAM role statements so that services can be accessed in the AWS account
-        - Effect: 'Allow'
-          Action:
-            - sqs:ReceiveMessage
-            - sqs:SendMessage
-            # - sqs:GetQueueUrl
-          Resource: !GetAtt Team2tranformtoload.Arn
+      # iamRoleStatements: # IAM role statements so that services can be accessed in the AWS account
+      #   - Effect: 'Allow'
+      #     Action:
+      #       - sqs:ReceiveMessage
+      #       - sqs:SendMessage
+      #       # - sqs:GetQueueUrl
+      #     Resource: !GetAtt Team2tranformtoload.Arn
 
 
     Team-2-Load-Lambda:
