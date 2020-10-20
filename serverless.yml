@@ -26,7 +26,7 @@ functions:
       iamRoleStatements:
         - Effect: 'Allow'
           Action:
-            - lambda:InvokeFunction
+            - sqs:SendMessage
           Resource: !GetAtt Team2-extract-to-tranform.Arn
         - Effect: 'Allow'
           Action:
@@ -52,8 +52,8 @@ functions:
           Action:
             - sqs:ReceiveMessage
             - sqs:SendMessage
-            - sqs:GetQueueUrl
-          Resource: !GetAtt Team2-New-Transform-To-Load.Arn
+            # - sqs:GetQueueUrl
+          #Resource: !GetAtt Team2-New-Transform-To-Load.Arn
 
 
     Team-2-Load-Lambda:
