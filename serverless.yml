@@ -18,12 +18,12 @@ functions:
       module: extract
       functions:
       destinations:
-        onSuccess: arn:aws:sqs:eu-west-1:579154747729:Team2-extract-to-tranform
+        onSuccess: arn:aws:sqs:eu-west-1:579154747729:Team2_extract_to_tranform
       iamRoleStatements:
         - Effect: 'Allow'
           Action:
             - sqs:SendMessage
-          Resource: !GetAtt Team2-extract-to-tranform.Arn
+          Resource: !GetAtt Team2_extract_to_tranform.Arn
         - Effect: 'Allow'
           Action:
             - s3:Get*
@@ -72,7 +72,7 @@ functions:
 
 resources:
   Resources:
-    Team2-extract-to-tranform:
+    Team2_extract_to_tranform:
       Type: "AWS::SQS::Queue"
       Properties:
-        QueueName: Team2-extract-to-tranform
+        QueueName: Team2_extract_to_tranform
