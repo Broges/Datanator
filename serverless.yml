@@ -28,7 +28,7 @@ functions:
         - Effect: 'Allow'
           Action:
             - sqs:SendMessage
-          Resource: !GetAtt Team2-extract-to-tranform.Arn
+          Resource: 'arn:aws:sqs:eu-west-1:579154747729:Team2-extract-to-tranform'
         - Effect: 'Allow'
           Action:
             - s3:Get*
