@@ -30,7 +30,7 @@ functions:
         - Effect: 'Allow'
           Action:
             - sqs:SendMessage
-          Resource: !GetAtt ['arn:aws:sqs:eu-west-1:579154747729:Team2-extract-to-tranform',Team2-extract-to-tranform]
+          Resources: #Team2-extract-to-tranform.Arn
           Team2-extract-to-tranform:
             Type: "AWS::SQS::Queue"
             Properties:
@@ -39,7 +39,7 @@ functions:
           Action:
             - s3:Get*
             - s3:List*
-          Resource:
+          Resources:
             - arn:aws:s3:::cafe-transactions-group-2
             - arn:aws:s3:::cafe-transactions-group-2/*
 
