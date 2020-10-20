@@ -30,7 +30,7 @@ functions:
         - Effect: 'Allow'
           Action:
             - sqs:SendMessage
-          Resource: #Team2-extract-to-tranform.Arn
+          Resource: Team2-extract-to-tranform.Arn
           Team2-extract-to-tranform:
             Type: "AWS::SQS::Queue"
             Properties:
