@@ -16,7 +16,7 @@ functions:
       runtime: python3.8
       handler: lambda_function.lambda_handler
       module: extract
-      functions:
+      # functions:
       destinations:
         onSuccess: arn:aws:sqs:eu-west-1:579154747729:Team2extracttotranform
       iamRoleStatements:
@@ -33,42 +33,41 @@ functions:
             - arn:aws:s3:::cafe-transactions-group-2/*
       events:
         - s3:
-          bucket: my-bucket
+          bucket: cafe-transactions-group-2
           event: s3:ObjectCreated:Put
           rules:
             - suffix: .csv
           existing: true
 
-    
-    # Team2-Transform-Lambda:
-    #   runtime: python3.8
-    #   handler: lambda_function.lambda_handler
-    #   module: transform
-    #   events:
-    #     - sqs: arn:aws:sqs:eu-west-1:579154747729:Team2-extract-to-tranform
-    #   destinations:
-    #     onSuccess: arn:aws:sqs:eu-west-1:579154747729:Team2-New-Transform-To-Load
-    #   iamRoleStatements: # IAM role statements so that services can be accessed in the AWS account
-    #     - Effect: 'Allow'
-    #       Action:
-    #         - sqs:ReceiveMessage
-    #         - sqs:SendMessage
-    #         # - sqs:GetQueueUrl
-    #       Resource: !GetAtt Team2-New-Transform-To-Load.Arn
+    Team2-Transform-Lambda:
+      runtime: python3.8
+      handler: lambda_function.lambda_handler
+      module: transform
+      events:
+        - sqs: arn:aws:sqs:eu-west-1:579154747729:Team2tranformtoload
+      destinations:
+        onSuccess: arn:aws:sqs:eu-west-1:579154747729:Team2tranformtoload
+      iamRoleStatements: # IAM role statements so that services can be accessed in the AWS account
+        - Effect: 'Allow'
+          Action:
+            - sqs:ReceiveMessage
+            - sqs:SendMessage
+            # - sqs:GetQueueUrl
+          Resource: !GetAtt Team2tranformtoload.Arn
 
 
-    # Team-2-Load-Lambda:
-    #   runtime: python3.8
-    #   handler: handler.lambda_handler
-    #   module: load
-    #   events:
-    #     - sqs: arn:aws:sqs:eu-west-1:579154747729:Team2-New-Transform-To-Load
-    #   enviroment:
-    #     DB_CLUSTER: 'bir1-cluster'
-    #     DB_HOST: '10.0.1.223' 
-    #     DB_NAME: 'dev' 
-    #     DB_PORT: '5439' 
-    #     DB_USER: 'awsuser'
+    Team-2-Load-Lambda:
+      runtime: python3.8
+      handler: handler.lambda_handler
+      module: load
+      events:
+        - sqs: arn:aws:sqs:eu-west-1:579154747729:Team2tranformtoload
+      enviroment:
+        DB_CLUSTER: 'bir1-cluster'
+        DB_HOST: '10.0.1.223' 
+        DB_NAME: 'dev' 
+        DB_PORT: '5439' 
+        DB_USER: 'awsuser'
 
 resources:
   Resources:
@@ -76,3 +75,8 @@ resources:
       Type: "AWS::SQS::Queue"
       Properties:
         QueueName: Team2extracttotranform
+
+    Team2tranformtoload:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: Team2tranformtoload
