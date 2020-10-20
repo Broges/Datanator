@@ -52,7 +52,7 @@ functions:
           Action:
             - sqs:ReceiveMessage
             - sqs:SendMessage
-            # - sqs:GetQueueUrl
+            - sqs:GetQueueUrl
           Resource: !GetAtt Team2-New-Transform-To-Load.Arn
 
 
