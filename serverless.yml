@@ -30,7 +30,7 @@ functions:
         - Effect: 'Allow'
           Action:
             - sqs:SendMessage
-          Resource: !GetAtt Team2-extract-to-tranform.Arn
+          Resource: !GetAtt ['arn:aws:sqs:eu-west-1:579154747729:Team2-extract-to-tranform',Team2-extract-to-tranform]
           Team2-extract-to-tranform:
             Type: "AWS::SQS::Queue"
             Properties:
