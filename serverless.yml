@@ -16,13 +16,14 @@ functions:
       runtime: python3.8
       handler: lambda_function.lambda_handler
       module: extract
+      functions:
       events:
         - s3:
-          bucket: cafe-transactions-group-2
-          event: s3:ObjectCreated:Put
-          rules:
-            - suffix: .csv
-          existing: true
+            bucket: my-bucket
+            event: s3:ObjectCreated:Put
+            rules:
+              - suffix: .csv
+            existing: true
       iamRoleStatements:
         - Effect: 'Allow'
           Action:
@@ -35,8 +36,6 @@ functions:
           Resource:
             - arn:aws:s3:::cafe-transactions-group-2
             - arn:aws:s3:::cafe-transactions-group-2/*
-      destinations:
-        onSuccess: arn:aws:sqs:eu-west-1:579154747729:Team2-extract-to-tranform
 
     
     Team2-Transform-Lambda:
@@ -53,7 +52,7 @@ functions:
             - sqs:ReceiveMessage
             - sqs:SendMessage
             # - sqs:GetQueueUrl
-          #Resource: !GetAtt Team2-New-Transform-To-Load.Arn
+          Resource: !GetAtt Team2-New-Transform-To-Load.Arn
 
 
     Team-2-Load-Lambda:
