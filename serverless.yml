@@ -31,10 +31,10 @@ functions:
           Action:
             - sqs:SendMessage
           Resource: !GetAtt Team2-extract-to-tranform.Arn
-            Team2-extract-to-tranform:
-              Type: "AWS::SQS::Queue"
-              Properties:
-                QueueName: Team2-extract-to-tranform
+          Team2-extract-to-tranform:
+            Type: "AWS::SQS::Queue"
+            Properties:
+              QueueName: Team2-extract-to-tranform
         - Effect: 'Allow'
           Action:
             - s3:Get*
