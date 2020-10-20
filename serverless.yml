@@ -25,12 +25,12 @@ functions:
               - suffix: .csv
             existing: true
       destinations:
-        onSuccess: arn:aws:sqs:eu-west-1:579154747729:Team2-extract-to-tranform
+        onSuccess: arn:aws:sqs:eu-west-1:579154747729:Team2-extract-to-tranform2
       iamRoleStatements:
         - Effect: 'Allow'
           Action:
             - sqs:SendMessage
-          Resource: 'arn:aws:sqs:eu-west-1:579154747729:Team2-extract-to-tranform'
+          Resource: 'arn:aws:sqs:eu-west-1:579154747729:Team2-extract-to-tranform2'
         - Effect: 'Allow'
           Action:
             - s3:Get*
