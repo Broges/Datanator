@@ -1,6 +1,7 @@
 service: group-2
 plugins:
   - serverless-python-requirements
+  - serverless-iam-roles-per-function
 
 provider:
   name: aws
@@ -38,7 +39,7 @@ functions:
         onSuccess: arn:aws:sqs:eu-west-1:579154747729:Team2-extract-to-tranform
 
     
-    Team2-Transform-Lambda2:
+    Team2-Transform-Lambda:
       runtime: python3.8
       handler: lambda_function.lambda_handler
       module: transform
@@ -55,7 +56,7 @@ functions:
           Resource: !GetAtt Team2-New-Transform-To-Load.Arn
 
 
-    Team-2-Load-Lambda2:
+    Team-2-Load-Lambda:
       runtime: python3.8
       handler: handler.lambda_handler
       module: load
