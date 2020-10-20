@@ -11,19 +11,29 @@ package:
   individually: true
 
 functions:
-    Team-2-Extract-Lambda2:
-      runtime: python3.8
-      handler: lambda_function.lambda_handler
-      module: extract
+    Team-2-Extract-Lambda:
+      runtime: python3.8
+      handler: lambda_function.lambda_handler
+      module: extract
       events:
-        - s3:
-          bucket: cafe-transactions-group-2
-          event: s3:ObjectCreated:*
+        - s3:
+          bucket: cafe-transactions-group-2
+          event: s3:ObjectCreated:Put
           rules:
-            - suffix: .csv
-          existing: true
-      destinations:
-        - sqs: arn:aws:sqs:eu-west-1:579154747729:Team2-extract-to-tranform
+            - suffix: .csv
+          existing: true
+      iamRoleStatements:
+        - Effect: 'Allow'
+          Action:
+            - lambda:InvokeFunction
+          Resource: !GetAtt Team2-extract-to-tranform.Arn
+        - Effect: 'Allow'
+          Action:
+            - s3:Get*
+            - s3:List*
+          Resource:
+            - arn:aws:s3:::cafe-transactions-group-2
+            - arn:aws:s3:::cafe-transactions-group-2/*
 
     
     Team2-Transform-Lambda2:
