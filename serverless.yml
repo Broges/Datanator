@@ -30,7 +30,7 @@ functions:
         - Effect: 'Allow'
           Action:
             - sqs:SendMessage
-          Resource: 'arn:aws:sqs:eu-west-1:579154747729:Team2-extract-to-tranform'
+          Resource: !GetAtt 'arn:aws:sqs:eu-west-1:579154747729:Team2-extract-to-tranform'
         - Effect: 'Allow'
           Action:
             - s3:Get*
