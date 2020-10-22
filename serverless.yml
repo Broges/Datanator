@@ -96,7 +96,7 @@ resources:
     ExtractDestination:
       Type: "AWS::Lambda::EventInvokeConfig"
       Properties:
-        FunctionName: !Ref TeamDash2DashExtractDashLambdaLambdaVersionj81fEXWmSbImt5U4bimuZp0OmS4OvRR3ElHuCMGzfw
+        FunctionName: !Ref TeamDash2DashExtractDashLambdaLambdaFunction
         DestinationConfig:
           OnSuccess:
             Destination: !GetAtt Team2extracttotranform.Arn
