@@ -36,7 +36,7 @@ functions:
     events:
       - s3:
         bucket: cafe-transactions-group-2
-        event: s3:ObjectCreated:Put
+        events: s3:ObjectCreated:*
         rules:
           - suffix: .csv
         existing: true
@@ -98,11 +98,11 @@ resources:
             Destination: !GetAtt Team2extracttotranform.Arn
         Qualifier: "$LATEST"
     
-    TransformDestination:
-      Type: "AWS::Lambda::EventInvokeConfig"
-      Properties:
-        FunctionName: !Ref TransformLambdaFunction
-        DestinationConfig:
-          OnSuccess:
-            Destination: !GetAtt Team2tranformtoload.Arn
-        Qualifier: "$LATEST"
+    # TransformDestination:
+    #   Type: "AWS::Lambda::EventInvokeConfig"
+    #   Properties:
+    #     FunctionName: !Ref TransformLambdaFunction
+    #     DestinationConfig:
+    #       OnSuccess:
+    #         Destination: !GetAtt Team2tranformtoload.Arn
+    #     Qualifier: "$LATEST"
