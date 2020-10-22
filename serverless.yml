@@ -81,6 +81,6 @@ resources:
         QueueName: Team2tranformtoload
 
     cafe-transactions-group-2:
-      type: "AWS::S3::Bucket"
-        Properties:
-          BucketName: cafe-transactions-group-2
+      Type: "AWS::S3::Bucket"
+      Properties:
+         BucketName: cafe-transactions-group-2
