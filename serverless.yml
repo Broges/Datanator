@@ -80,7 +80,25 @@ resources:
       Properties:
         QueueName: Team2tranformtoload
 
-    cafe-transactions-group-2:
-      Type: "AWS::S3::Bucket"
+    # cafe-transactions-group-2:
+    #   Type: "AWS::S3::Bucket"
+    #   Properties:
+    #      BucketName: cafe-transactions-group-2
+
+    ExtractDestination:
+      Type: "AWS::Lambda::EventInvokeConfig"
       Properties:
-         BucketName: cafe-transactions-group-2
+        FunctionName: !Ref ExtractLambdaFunction
+        DestinationConfig:
+          OnSuccess:
+            Destination: !GetAtt Team2extracttotranform.Arn
+        Qualifier: "$LATEST"
+    
+    TransformDestination:
+      Type: "AWS::Lambda::EventInvokeConfig"
+      Properties:
+        FunctionName: !Ref TransformLambdaFunction
+        DestinationConfig:
+          OnSuccess:
+            Destination: !GetAtt Team2tranformtoload.Arn
+        Qualifier: "$LATEST"
