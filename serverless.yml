@@ -43,7 +43,7 @@ functions:
   Team2-Transform:
     runtime: python3.8
     handler: lambda_function.lambda_handler
-    timeout: 120
+    timeout: 30
     module: transform
     include:
       - transform
