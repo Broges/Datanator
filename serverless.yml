@@ -71,22 +71,17 @@ functions:
 #       DB_PORT: '5439'
 #       DB_USER: 'awsuser'
 
-# resources:
-#   Resources:
-#     Team2extracttotranform:
-#       Type: "AWS::SQS::Queue"
-#       Properties:
-#         QueueName: Team2extracttotranform
+resources:
+  Resources:
+    Team2extracttotranform:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: Team2extracttotranform
 
-#     Team2tranformtoload:
-#       Type: "AWS::SQS::Queue"
-#       Properties:
-#         QueueName: Team2tranformtoload
-
-    # cafe-transactions-group-2:
-    #   Type: "AWS::S3::Bucket"
-    #   Properties:
-    #      BucketName: cafe-transactions-group-2
+    Team2tranformtoload:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: Team2tranformtoload
 
     # ExtractDestination:
     #   Type: "AWS::Lambda::EventInvokeConfig"
@@ -105,28 +100,3 @@ functions:
     #       OnSuccess:
     #         Destination: !GetAtt Team2tranformtoload.Arn
     #     Qualifier: "$LATEST"
-
-    # Bucket:
-    #   Type: AWS::S3::Bucket
-    #   DependsOn:
-    #     - ProcessingLambdaPermission
-    #   Properties:
-    #     BucketName: !Ref BucketName
-    #     NotificationConfiguration:
-    #       LambdaConfigurations:
-    #         - Event: s3:ObjectCreated:*
-    #           Function: !GetAtt ProcessingLambdaFunction.Arn
-    #           Filter:
-    #             S3Key:
-    #               Rules:
-    #               - Name: suffix
-    #                 Value: .txt
-
-    # ProcessingLambdaPermission:
-    #   Type: AWS::Lambda::Permission
-    #   Properties:
-    #     Action: 'lambda:InvokeFunction'
-    #     FunctionName: !Ref ProcessingLambdaFunction
-    #     Principal: s3.amazonaws.com
-    #     SourceArn: !Sub 'arn:aws:s3:::${BucketName}'
-    #     SourceAccount: !Ref AWS::AccountId
