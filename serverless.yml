@@ -22,11 +22,11 @@ functions:
       - extract
     events:
       - s3:
-        bucket: cafe-transactions-group-2
-        event: s3:ObjectCreated:Put
-        rules:
-          - suffix: .csv
-        existing: true
+          bucket: cafe-transactions-group-2
+          event: s3:ObjectCreated:Put
+          rules:
+            - suffix: .csv
+          existing: true
     # destinations:
     #   onSuccess: arn:aws:sqs:eu-west-1:579154747729:Team2extracttotranform
     iamRoleStatements:
