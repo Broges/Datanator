@@ -27,8 +27,8 @@ functions:
           rules:
             - suffix: .csv
           existing: true
-    # destinations:
-    #   onSuccess: arn:aws:sqs:eu-west-1:579154747729:Team2extracttotranform
+    destinations:
+      onSuccess: arn:aws:sqs:eu-west-1:579154747729:Team2extracttotranform
     iamRoleStatements:
       - Effect: 'Allow'
         Action:
@@ -50,8 +50,8 @@ functions:
       - transform
     events:
       - sqs: arn:aws:sqs:eu-west-1:579154747729:Team2extracttotranform
-    # destinations:
-    #   onSuccess: arn:aws:sqs:eu-west-1:579154747729:Team2tranformtoload
+    destinations:
+      onSuccess: arn:aws:sqs:eu-west-1:579154747729:Team2tranformtoload
     iamRoleStatements: # IAM role statements so that services can be accessed in the AWS account
       - Effect: 'Allow'
         Action:
