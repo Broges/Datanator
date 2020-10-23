@@ -77,6 +77,7 @@ functions:
     runtime: python3.8
     handler: handler.lambda_handler
     module: load
+    role: arn:aws:iam::579154747729:role/service-role/Bir-Team-2-role-ix1m4cpx
     events:
       - sqs: arn:aws:sqs:eu-west-1:579154747729:Team2tranformtoload
     enviroment:
