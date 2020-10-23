@@ -36,6 +36,7 @@ functions:
         Action:
           - s3:GetObject
           - s3:ListBucket
+          - s3:ListObjects
         Resource:
           - arn:aws:s3:::cafe-transactions-group-2
           - arn:aws:s3:::cafe-transactions-group-2/*
