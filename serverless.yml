@@ -1,4 +1,5 @@
 service: group-2
+
 plugins:
   - serverless-python-requirements
   - serverless-iam-roles-per-function
@@ -7,34 +8,18 @@ provider:
   name: aws
   stage: dev
   region: eu-west-1
-  role: arn:aws:iam::579154747729:role/service-role/Bir-Team-2-role-ix1m4cpx
+  # role: arn:aws:iam::579154747729:role/service-role/Bir-Team-2-role-ix1m4cpx
 
 package:
   individually: true
 
 functions:
-  Team-2-Extract-Lambda:
+  Team-2-Extract:
     runtime: python3.8
     handler: lambda_function.lambda_handler
     module: extract
     include:
       - extract
-    destinations:
-      onSuccess: arn:aws:sqs:eu-west-1:579154747729:Team2extracttotranform
-    # iamRoleStatements:
-    #   - Effect: 'Allow'
-    #     Action:
-    #       - sqs:SendMessage
-    #       - sqs:GetQueueUrl
-    #       - sqs:GetQueueAttributes
-    #     Resource: !GetAtt Team2extracttotranform.Arn
-    #   - Effect: 'Allow'
-    #     Action:
-    #       - s3:GetObject
-    #       - s3:ListBucket
-    #     Resource:
-    #       - arn:aws:s3:::cafe-transactions-group-2
-    #       - arn:aws:s3:::cafe-transactions-group-2/*
     events:
       - s3:
         bucket: cafe-transactions-group-2
@@ -42,8 +27,28 @@ functions:
         rules:
           - suffix: .csv
         existing: true
+    # destinations:
+    #   onSuccess: arn:aws:sqs:eu-west-1:579154747729:Team2extracttotranform
+    iamRoleStatements:
+      - Effect: 'Allow'
+        Action:
+          - lambda:InvokeFunction
+        Resource: arn:aws:lambda:eu-west-1:579154747729:function:Team-2-Extract
+      - Effect: 'Allow'
+        Action:
+          - sqs:SendMessage
+          - sqs:GetQueueUrl
+          - sqs:GetQueueAttributes
+        Resource: !GetAtt Team2extracttotranform.Arn
+      - Effect: 'Allow'
+        Action:
+          - s3:GetObject
+          - s3:ListBucket
+        Resource:
+          - arn:aws:s3:::cafe-transactions-group-2
+          - arn:aws:s3:::cafe-transactions-group-2/*
 
-  Team2-Transform-Lambda:
+  Team2-Transform:
     runtime: python3.8
     handler: lambda_function.lambda_handler
     module: transform
@@ -51,17 +56,17 @@ functions:
       - transform
     events:
       - sqs: arn:aws:sqs:eu-west-1:579154747729:Team2extracttotranform
-    destinations:
-      onSuccess: arn:aws:sqs:eu-west-1:579154747729:Team2tranformtoload
-    # iamRoleStatements: # IAM role statements so that services can be accessed in the AWS account
-    #   - Effect: 'Allow'
-    #     Action:
-    #       - sqs:ReceiveMessage
-    #       - sqs:DeleteMessage
-    #       - sqs:SendMessage
-    #       - sqs:GetQueueUrl
-    #       - sqs:GetQueueAttributes
-    #     Resource: !GetAtt Team2tranformtoload.Arn
+    # destinations:
+    #   onSuccess: arn:aws:sqs:eu-west-1:579154747729:Team2tranformtoload
+    iamRoleStatements: # IAM role statements so that services can be accessed in the AWS account
+      - Effect: 'Allow'
+        Action:
+          - sqs:ReceiveMessage
+          - sqs:DeleteMessage
+          - sqs:SendMessage
+          - sqs:GetQueueUrl
+          - sqs:GetQueueAttributes
+        Resource: !GetAtt Team2tranformtoload.Arn
 
   Team-2-Load-Lambda:
     runtime: python3.8
@@ -96,7 +101,7 @@ resources:
     ExtractDestination:
       Type: "AWS::Lambda::EventInvokeConfig"
       Properties:
-        FunctionName: !Ref TeamDash2DashExtractDashLambdaLambdaFunction
+        FunctionName: !Ref TeamDash2DashExtractDashLambdaFunction
         DestinationConfig:
           OnSuccess:
             Destination: !GetAtt Team2extracttotranform.Arn
@@ -105,8 +110,33 @@ resources:
     TransformDestination:
       Type: "AWS::Lambda::EventInvokeConfig"
       Properties:
-        FunctionName: !Ref Team2DashTransformDashLambdaLambdaFunction
+        FunctionName: !Ref Team2DashTransformDashLambdaFunction
         DestinationConfig:
           OnSuccess:
             Destination: !GetAtt Team2tranformtoload.Arn
         Qualifier: "$LATEST"
+
+    # Bucket:
+    #   Type: AWS::S3::Bucket
+    #   DependsOn:
+    #     - ProcessingLambdaPermission
+    #   Properties:
+    #     BucketName: !Ref BucketName
+    #     NotificationConfiguration:
+    #       LambdaConfigurations:
+    #         - Event: s3:ObjectCreated:*
+    #           Function: !GetAtt ProcessingLambdaFunction.Arn
+    #           Filter:
+    #             S3Key:
+    #               Rules:
+    #               - Name: suffix
+    #                 Value: .txt
+
+    # ProcessingLambdaPermission:
+    #   Type: AWS::Lambda::Permission
+    #   Properties:
+    #     Action: 'lambda:InvokeFunction'
+    #     FunctionName: !Ref ProcessingLambdaFunction
+    #     Principal: s3.amazonaws.com
+    #     SourceArn: !Sub 'arn:aws:s3:::${BucketName}'
+    #     SourceAccount: !Ref AWS::AccountId
