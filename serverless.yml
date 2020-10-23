@@ -60,7 +60,9 @@ functions:
   Team-2-Load-Lambda:
     runtime: python3.8
     handler: handler.lambda_handler
+    timeout: 300
     module: load
+    include: 
     events:
       - sqs: arn:aws:sqs:eu-west-1:579154747729:Team2transformtoload
     iamRoleStatements: 
@@ -68,12 +70,13 @@ functions:
         Action:
           - sqs:ReceiveMessage
         Resource: !GetAtt Team2transformtoload.Arn
-    enviroment:
-      DB_CLUSTER: 'bir1-cluster'
-      DB_HOST: '10.0.1.223' 
-      DB_NAME: 'dev' 
-      DB_PORT: '5439'
-      DB_USER: 'awsuser'
+    Environment:
+      Variables: 
+        DB_CLUSTER : 'bir1-cluster'
+        DB_HOST : '10.0.1.223' 
+        DB_NAME : 'dev' 
+        DB_PORT : '5439'
+        DB_USER : 'awsuser'
 
 resources:
   Resources:
