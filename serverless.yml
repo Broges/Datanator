@@ -30,7 +30,7 @@ functions:
       - Effect: 'Allow'
         Action:
           - sqs:SendMessage
-        Resource: !GetAtt Team2-extract-to-tranform.Arn
+        Resource: !GetAtt Team2extracttotransform.Arn
       - Effect: 'Allow'
         Action:
           - s3:GetObject
@@ -73,15 +73,15 @@ functions:
 
 resources:
   Resources:
-    Team2extracttotranform:
+    Team2extracttotransform:
       Type: "AWS::SQS::Queue"
       Properties:
-        QueueName: Team2-extract-to-tranform
+        QueueName: Team2extracttotransform
 
 #     Team2tranformtoload:
 #       Type: "AWS::SQS::Queue"
 #       Properties:
-#         QueueName: Team2tranformtoload
+#         QueueName: Team2transformtoload
 
     # ExtractDestination:
     #   Type: "AWS::Lambda::EventInvokeConfig"
