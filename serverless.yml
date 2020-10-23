@@ -23,7 +23,7 @@ functions:
     events:
       - s3:
         bucket: cafe-transactions-group-2
-        event: s3:ObjectCreated:PUT
+        event: s3:ObjectCreated:Put
         rules:
           - suffix: .csv
         existing: true
