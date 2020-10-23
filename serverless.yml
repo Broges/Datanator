@@ -88,7 +88,6 @@ resources:
       Properties:
         QueueName: Team2extracttotransform
         
-
     Team2transformtoload:
       Type: "AWS::SQS::Queue"
       Properties:
@@ -100,7 +99,7 @@ resources:
     #     FunctionName: !Ref TeamDash2DashExtractDashLambdaFunction
     #     DestinationConfig:
     #       OnSuccess:
-    #         Destination: !GetAtt Team2extracttotranform.Arn
+    #         Destination: !GetAtt Team2extracttotransform.Arn
     #     Qualifier: "$LATEST"
     
     # TransformDestination:
@@ -109,5 +108,5 @@ resources:
     #     FunctionName: !Ref Team2DashTransformDashLambdaFunction
     #     DestinationConfig:
     #       OnSuccess:
-    #         Destination: !GetAtt Team2tranformtoload.Arn
+    #         Destination: !GetAtt Team2transformtoload.Arn
     #     Qualifier: "$LATEST"

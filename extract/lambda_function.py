@@ -8,7 +8,7 @@ from sqs_functions.queue import send_sqs_data
 # own list
 
 def lambda_handler(event, context):
-    big_red_button(False, "11/10/2020", "11/10/2020") # "dd/mm/yyyy", To get 1 day, have the dates the same
+    big_red_button(True, "11/10/2020", "11/10/2020") # "dd/mm/yyyy", To get 1 day, have the dates the same
     
     # bucketname = "cafe-etl"
     
