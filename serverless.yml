@@ -39,49 +39,49 @@ functions:
           - arn:aws:s3:::cafe-transactions-group-2
           - arn:aws:s3:::cafe-transactions-group-2/*
 
-  Team2-Transform:
-    runtime: python3.8
-    handler: lambda_function.lambda_handler
-    module: transform
-    include:
-      - transform
-    events:
-      - sqs: arn:aws:sqs:eu-west-1:579154747729:Team2extracttotranform
-    iamRoleStatements: # IAM role statements so that services can be accessed in the AWS account
-      - Effect: 'Allow'
-        Action:
-          - sqs:ReceiveMessage
-          - sqs:SendMessage
-        # Resource: # 
-        #   - arn:aws:sqs:eu-west-1:579154747729:Team2extracttotranform
-        #   - !GetAtt Team2transformtoload.Arn
-        Resource: # 
-          - arn:aws:sqs:eu-west-1:579154747729:Team2extracttotranform
+  # Team2-Transform:
+  #   runtime: python3.8
+  #   handler: lambda_function.lambda_handler
+  #   module: transform
+  #   include:
+  #     - transform
+  #   events:
+  #     - sqs: arn:aws:sqs:eu-west-1:579154747729:Team2extracttotranform
+  #   iamRoleStatements: # IAM role statements so that services can be accessed in the AWS account
+  #     - Effect: 'Allow'
+  #       Action:
+  #         - sqs:ReceiveMessage
+  #         - sqs:SendMessage
+  #       # Resource: # 
+  #       #   - arn:aws:sqs:eu-west-1:579154747729:Team2extracttotranform
+  #       #   - !GetAtt Team2transformtoload.Arn
+  #       Resource: # 
+  #         - arn:aws:sqs:eu-west-1:579154747729:Team2extracttotranform
 
-  Team-2-Load-Lambda:
-    runtime: python3.8
-    handler: handler.lambda_handler
-    module: load
-    events:
-      - sqs: arn:aws:sqs:eu-west-1:579154747729:Team2transformtoload
-    enviroment:
-      DB_CLUSTER: 'bir1-cluster'
-      DB_HOST: '10.0.1.223' 
-      DB_NAME: 'dev' 
-      DB_PORT: '5439'
-      DB_USER: 'awsuser'
+#   Team-2-Load-Lambda:
+#     runtime: python3.8
+#     handler: handler.lambda_handler
+#     module: load
+#     events:
+#       - sqs: arn:aws:sqs:eu-west-1:579154747729:Team2transformtoload
+#     enviroment:
+#       DB_CLUSTER: 'bir1-cluster'
+#       DB_HOST: '10.0.1.223' 
+#       DB_NAME: 'dev' 
+#       DB_PORT: '5439'
+#       DB_USER: 'awsuser'
 
-resources:
-  Resources:
-    Team2extracttotranform:
-      Type: "AWS::SQS::Queue"
-      Properties:
-        QueueName: Team2extracttotranform
+# resources:
+#   Resources:
+#     Team2extracttotranform:
+#       Type: "AWS::SQS::Queue"
+#       Properties:
+#         QueueName: Team2extracttotranform
 
-    Team2tranformtoload:
-      Type: "AWS::SQS::Queue"
-      Properties:
-        QueueName: Team2tranformtoload
+#     Team2tranformtoload:
+#       Type: "AWS::SQS::Queue"
+#       Properties:
+#         QueueName: Team2tranformtoload
 
     # cafe-transactions-group-2:
     #   Type: "AWS::S3::Bucket"
