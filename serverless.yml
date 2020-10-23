@@ -8,7 +8,7 @@ provider:
   name: aws
   stage: dev
   region: eu-west-1
-  # role: arn:aws:iam::579154747729:role/service-role/Bir-Team-2-role-ix1m4cpx
+  role: arn:aws:iam::579154747729:role/service-role/Bir-Team-2-role-ix1m4cpx
 
 package:
   individually: true
@@ -29,25 +29,25 @@ functions:
         existing: true
     # destinations:
     #   onSuccess: arn:aws:sqs:eu-west-1:579154747729:Team2extracttotranform
-    iamRoleStatements:
-      - Effect: 'Allow'
-        Action:
-          - lambda:InvokeFunction
-          - lambda:DeleteFunctionEventInvokeConfig
-        Resource: arn:aws:lambda:eu-west-1:579154747729:function:Team-2-Extract
-      - Effect: 'Allow'
-        Action:
-          - sqs:SendMessage
-          - sqs:GetQueueUrl
-          - sqs:GetQueueAttributes
-        Resource: !GetAtt Team2extracttotranform.Arn
-      - Effect: 'Allow'
-        Action:
-          - s3:GetObject
-          - s3:ListBucket
-        Resource:
-          - arn:aws:s3:::cafe-transactions-group-2
-          - arn:aws:s3:::cafe-transactions-group-2/*
+    # iamRoleStatements:
+    #   - Effect: 'Allow'
+    #     Action:
+    #       - lambda:InvokeFunction
+    #       - lambda:DeleteFunctionEventInvokeConfig
+    #     Resource: arn:aws:lambda:eu-west-1:579154747729:function:Team-2-Extract
+    #   - Effect: 'Allow'
+    #     Action:
+    #       - sqs:SendMessage
+    #       - sqs:GetQueueUrl
+    #       - sqs:GetQueueAttributes
+    #     Resource: !GetAtt Team2extracttotranform.Arn
+    #   - Effect: 'Allow'
+    #     Action:
+    #       - s3:GetObject
+    #       - s3:ListBucket
+    #     Resource:
+    #       - arn:aws:s3:::cafe-transactions-group-2
+    #       - arn:aws:s3:::cafe-transactions-group-2/*
 
   Team2-Transform:
     runtime: python3.8
@@ -59,25 +59,25 @@ functions:
       - sqs: arn:aws:sqs:eu-west-1:579154747729:Team2extracttotranform
     # destinations:
     #   onSuccess: arn:aws:sqs:eu-west-1:579154747729:Team2tranformtoload
-    iamRoleStatements: # IAM role statements so that services can be accessed in the AWS account
-      - Effect: 'Allow'
-        Action:
-          - sqs:ReceiveMessage
-          - sqs:DeleteMessage
-          - sqs:SendMessage
-          - sqs:GetQueueUrl
-          - sqs:GetQueueAttributes
-        Resource: !GetAtt Team2tranformtoload.Arn
-      - Effect: 'Allow'
-        Action:
-          - lambda:DeleteFunctionEventInvokeConfig
-        Resource: arn:aws:logs:eu-west-1:579154747729:log-group:/aws/lambda/group-2-dev-Team2-Transform
+    # iamRoleStatements: # IAM role statements so that services can be accessed in the AWS account
+    #   - Effect: 'Allow'
+    #     Action:
+    #       - sqs:ReceiveMessage
+    #       - sqs:DeleteMessage
+    #       - sqs:SendMessage
+    #       - sqs:GetQueueUrl
+    #       - sqs:GetQueueAttributes
+    #     Resource: !GetAtt Team2tranformtoload.Arn
+    #   - Effect: 'Allow'
+    #     Action:
+    #       - lambda:DeleteFunctionEventInvokeConfig
+    #     Resource: arn:aws:logs:eu-west-1:579154747729:log-group:/aws/lambda/group-2-dev-Team2-Transform
 
   Team-2-Load-Lambda:
     runtime: python3.8
     handler: handler.lambda_handler
     module: load
-    role: arn:aws:iam::579154747729:role/service-role/Bir-Team-2-role-ix1m4cpx
+    # role: arn:aws:iam::579154747729:role/service-role/Bir-Team-2-role-ix1m4cpx
     events:
       - sqs: arn:aws:sqs:eu-west-1:579154747729:Team2tranformtoload
     enviroment:
