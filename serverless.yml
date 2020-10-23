@@ -52,9 +52,9 @@ functions:
         Action:
           - sqs:ReceiveMessage
           - sqs:SendMessage
-        Resource: # !GetAtt Team2-transform-to-load.Arn
+        Resource: # 
           - arn:aws:sqs:eu-west-1:579154747729:Team2-extract-to-tranform
-          - arn:aws:sqs:eu-west-1:579154747729:Team2-transform-to-load
+          - !GetAtt Team2-transform-to-load.Arn
 
   Team-2-Load-Lambda:
     runtime: python3.8
