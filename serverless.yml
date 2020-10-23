@@ -71,12 +71,12 @@ functions:
 #       DB_PORT: '5439'
 #       DB_USER: 'awsuser'
 
-# resources:
-#   Resources:
-#     Team2extracttotranform:
-#       Type: "AWS::SQS::Queue"
-#       Properties:
-#         QueueName: Team2extracttotranform
+resources:
+  Resources:
+    Team2extracttotranform:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: Team2-extract-to-tranform
 
 #     Team2tranformtoload:
 #       Type: "AWS::SQS::Queue"
