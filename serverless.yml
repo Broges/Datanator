@@ -8,7 +8,6 @@ provider:
   name: aws
   stage: dev
   region: eu-west-1
-  # role: arn:aws:iam::579154747729:role/service-role/Bir-Team-2-role-ix1m4cpx
 
 package:
   individually: true
@@ -31,7 +30,7 @@ functions:
       - Effect: 'Allow'
         Action:
           - sqs:SendMessage
-        Resource: !GetAtt Team2extracttotranform.Arn
+        Resource: !GetAtt Team2-extract-to-tranform.Arn
       - Effect: 'Allow'
         Action:
           - s3:GetObject
@@ -47,20 +46,22 @@ functions:
     include:
       - transform
     events:
-      - sqs: arn:aws:sqs:eu-west-1:579154747729:Team2extracttotranform
+      - sqs: arn:aws:sqs:eu-west-1:579154747729:Team2-extract-to-tranform
     iamRoleStatements: # IAM role statements so that services can be accessed in the AWS account
       - Effect: 'Allow'
         Action:
           - sqs:ReceiveMessage
           - sqs:SendMessage
-        Resource: !GetAtt Team2tranformtoload.Arn
+        Resource: # !GetAtt Team2-transform-to-load.Arn
+          - arn:aws:sqs:eu-west-1:579154747729:Team2-extract-to-tranform
+          - arn:aws:sqs:eu-west-1:579154747729:Team2-transform-to-load
 
   Team-2-Load-Lambda:
     runtime: python3.8
     handler: handler.lambda_handler
     module: load
     events:
-      - sqs: arn:aws:sqs:eu-west-1:579154747729:Team2tranformtoload
+      - sqs: arn:aws:sqs:eu-west-1:579154747729:Team2-transform-to-load
     enviroment:
       DB_CLUSTER: 'bir1-cluster'
       DB_HOST: '10.0.1.223' 
@@ -68,17 +69,17 @@ functions:
       DB_PORT: '5439'
       DB_USER: 'awsuser'
 
-resources:
-  Resources:
-    Team2extracttotranform:
-      Type: "AWS::SQS::Queue"
-      Properties:
-        QueueName: Team2extracttotranform
+# resources:
+#   Resources:
+#     Team2extracttotranform:
+#       Type: "AWS::SQS::Queue"
+#       Properties:
+#         QueueName: Team2extracttotranform
 
-    Team2tranformtoload:
-      Type: "AWS::SQS::Queue"
-      Properties:
-        QueueName: Team2tranformtoload
+#     Team2tranformtoload:
+#       Type: "AWS::SQS::Queue"
+#       Properties:
+#         QueueName: Team2tranformtoload
 
     # cafe-transactions-group-2:
     #   Type: "AWS::S3::Bucket"
