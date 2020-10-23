@@ -1,4 +1,4 @@
-service: group-2
+service: team-2
 
 plugins:
   - serverless-python-requirements
