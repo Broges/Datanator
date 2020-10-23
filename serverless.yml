@@ -33,6 +33,7 @@ functions:
       - Effect: 'Allow'
         Action:
           - lambda:InvokeFunction
+          - lambda:DeleteFunctionEventInvokeConfig
         Resource: arn:aws:lambda:eu-west-1:579154747729:function:Team-2-Extract
       - Effect: 'Allow'
         Action:
@@ -67,6 +68,10 @@ functions:
           - sqs:GetQueueUrl
           - sqs:GetQueueAttributes
         Resource: !GetAtt Team2tranformtoload.Arn
+      - Effect: 'Allow'
+        Action:
+          - lambda:DeleteFunctionEventInvokeConfig
+        Resource: !GetAtt Team2-Transform
 
   Team-2-Load-Lambda:
     runtime: python3.8
@@ -80,6 +85,11 @@ functions:
       DB_NAME: 'dev' 
       DB_PORT: '5439'
       DB_USER: 'awsuser'
+    iamRoleStatements:
+      - Effect: 'Allow'
+        Action:
+          - lambda:DeleteFunctionEventInvokeConfig
+        Resource: !GetAtt Team2-Transform-Load-Lambda
 
 resources:
   Resources:
