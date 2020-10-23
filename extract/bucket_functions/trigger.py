@@ -23,7 +23,7 @@ def big_red_button(hard_restart, start_date, end_date):
         filename_list = []
         
         s3 = boto3.resource('s3')
-        my_bucket = s3.Bucket('cafe-transactions')
+        my_bucket = s3.Bucket('cafe-transactions-group-2')
         for my_bucket_object in my_bucket.objects.all():
             for day in days:
                 if day in my_bucket_object.key:
@@ -32,7 +32,7 @@ def big_red_button(hard_restart, start_date, end_date):
 
         file_no = 1
         for file in filename_list:
-            data = get_csv_data_from_bucket('cafe-transactions', file)
+            data = get_csv_data_from_bucket('cafe-transactions-group-2', file)
             print(f"{file_no}:")
             send_sqs_data(data, file)
             file_no += 1

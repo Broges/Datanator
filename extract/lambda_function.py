@@ -12,7 +12,7 @@ def lambda_handler(event, context):
     
     # bucketname = "cafe-etl"
     
-    bucketname = "cafe-transactions"
+    bucketname = "cafe-transactions-group-2"
     
     # file_key = "2020/10/11/craigavon_11-10-2020_19-49-27.csv"
     
