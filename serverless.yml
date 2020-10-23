@@ -62,7 +62,6 @@ functions:
     handler: handler.lambda_handler
     timeout: 300
     module: load
-    include: 
     events:
       - sqs: arn:aws:sqs:eu-west-1:579154747729:Team2transformtoload
     iamRoleStatements: 
