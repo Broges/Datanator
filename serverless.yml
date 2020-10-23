@@ -78,7 +78,7 @@ resources:
         QueueName: Team2extracttotransform
         
 
-    Team2tranformtoload:
+    Team2transformtoload:
       Type: "AWS::SQS::Queue"
       Properties:
         QueueName: Team2transformtoload
