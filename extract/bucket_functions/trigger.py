@@ -12,7 +12,7 @@ def get_event_file_key(event):
     file_key = info.get('object', {}).get('key')
     return file_key
     
-def big_red_button(hard_restart, start_date, end_date):
+def big_red_button(hard_restart, start_date, end_date, bucketname):
     # The purpose of this function is to retrieve the data from the files
     # dated the dates inbetween the start and end date to act as a hard restart
     # hard restart should be set as False in normal use
@@ -23,7 +23,7 @@ def big_red_button(hard_restart, start_date, end_date):
         filename_list = []
         
         s3 = boto3.resource('s3')
-        my_bucket = s3.Bucket('cafe-transactions-group-2')
+        my_bucket = s3.Bucket(bucketname)
         for my_bucket_object in my_bucket.objects.all():
             for day in days:
                 if day in my_bucket_object.key:
@@ -32,7 +32,7 @@ def big_red_button(hard_restart, start_date, end_date):
 
         file_no = 1
         for file in filename_list:
-            data = get_csv_data_from_bucket('cafe-transactions-group-2', file)
+            data = get_csv_data_from_bucket(bucketname, file)
             print(f"{file_no}:")
             send_sqs_data(data, file)
             file_no += 1
