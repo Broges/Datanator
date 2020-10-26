@@ -87,7 +87,7 @@ functions:
       - Effect: 'Allow'
         Action:
           - lambda:UpdateEventSourceMapping
-        Resource: arn:aws:lambda:eu-west-1:579154747729:event-source-mapping:a99f081e-f665-446d-9e57-c39a875b6cfd 
+        Resource: arn:aws:lambda:eu-west-1:579154747729:event-source-mapping:fb496766-aae8-41e9-a7ed-62faea39a5a8 
       - Effect: 'Allow'
         Action:
           - sqs:ReceiveMessage
