@@ -51,7 +51,11 @@ functions:
   #     - sqs: 
   #         arn: arn:aws:sqs:eu-west-1:579154747729:Team2extracttotransform
   #         batchSize: 10
-  #   iamRoleStatements: 
+  #   iamRoleStatements:
+  #     - Effect: 'Allow'
+  #       Action:
+  #         - lambda:UpdateEventSourceMapping
+  #       Resource: arn:aws:lambda:eu-west-1:579154747729:event-source-mapping:a99f081e-f665-446d-9e57-c39a875b6cfd 
   #     - Effect: 'Allow'
   #       Action:
   #         - sqs:ReceiveMessage
@@ -78,7 +82,7 @@ functions:
     events:
       - sqs: 
           arn: arn:aws:sqs:eu-west-1:579154747729:Team2transformtoload
-          batchSize: 10
+          batchSize: 1
     iamRoleStatements:
       - Effect: 'Allow'
         Action:
