@@ -68,7 +68,7 @@ functions:
   Team-2-Load-Lambda:
     runtime: python3.8
     handler: handler.lambda_handler
-    timeout: 300
+    timeout: 30
     module: load
     include:
       - load
