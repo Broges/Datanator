@@ -67,6 +67,12 @@ functions:
     include:
       - load
       - psycopg2
+    vpc:
+      securityGroupIds:
+        - sg-03601054033ee65d6
+        - sg-04ffa039212cd915c
+      subnetIds:
+        - subnet-0b0c0f6ea99bda1ee
     events:
       - sqs: arn:aws:sqs:eu-west-1:579154747729:Team2transformtoload
     iamRoleStatements:
