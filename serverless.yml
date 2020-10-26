@@ -54,8 +54,8 @@ functions:
     iamRoleStatements:
       - Effect: 'Allow'
         Action:
-          - lambda:CreatEventSourceMapping
-        Resource: arn:aws:lambda:eu-west-1:579154747729:event-source-mapping:a99f081e-f665-446d-9e57-c39a875b6cfd 
+          - lambda:UpdateEventSourceMapping
+        Resource: arn:aws:sqs:eu-west-1:579154747729:Team2extracttotransform 
       - Effect: 'Allow'
         Action:
           - sqs:ReceiveMessage
