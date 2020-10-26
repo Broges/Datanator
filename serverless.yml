@@ -13,53 +13,53 @@ package:
   individually: true
 
 functions:
-  Team-2-Extract:
-    runtime: python3.8
-    handler: lambda_function.lambda_handler
-    timeout: 500
-    module: extract
-    include:
-      - extract
-    events:
-      - s3:
-          bucket: cafe-transactions-group-2
-          event: s3:ObjectCreated:Put
-          rules:
-            - suffix: .csv
-          existing: true
-    iamRoleStatements:
-      - Effect: 'Allow'
-        Action:
-          - sqs:SendMessage
-        Resource: !GetAtt Team2extracttotransform.Arn
-      - Effect: 'Allow'
-        Action:
-          - s3:GetObject
-          - s3:ListBucket
-        Resource:
-          - arn:aws:s3:::cafe-transactions-group-2
-          - arn:aws:s3:::cafe-transactions-group-2/*
+  # Team-2-Extract:
+  #   runtime: python3.8
+  #   handler: lambda_function.lambda_handler
+  #   timeout: 500
+  #   module: extract
+  #   include:
+  #     - extract
+  #   events:
+  #     - s3:
+  #         bucket: cafe-transactions-group-2
+  #         event: s3:ObjectCreated:Put
+  #         rules:
+  #           - suffix: .csv
+  #         existing: true
+  #   iamRoleStatements:
+  #     - Effect: 'Allow'
+  #       Action:
+  #         - sqs:SendMessage
+  #       Resource: !GetAtt Team2extracttotransform.Arn
+  #     - Effect: 'Allow'
+  #       Action:
+  #         - s3:GetObject
+  #         - s3:ListBucket
+  #       Resource:
+  #         - arn:aws:s3:::cafe-transactions-group-2
+  #         - arn:aws:s3:::cafe-transactions-group-2/*
 
-  Team2-Transform:
-    runtime: python3.8
-    handler: lambda_function.lambda_handler
-    timeout: 30
-    module: transform
-    include:
-      - transform
-    events:
-      - sqs: 
-          arn: arn:aws:sqs:eu-west-1:579154747729:Team2extracttotransform
-          batchSize: 10
-    iamRoleStatements: 
-      - Effect: 'Allow'
-        Action:
-          - sqs:ReceiveMessage
-        Resource: !GetAtt Team2extracttotransform.Arn
-      - Effect: 'Allow'
-        Action:
-          - sqs:SendMessage
-        Resource: !GetAtt Team2transformtoload.Arn
+  # Team2-Transform:
+  #   runtime: python3.8
+  #   handler: lambda_function.lambda_handler
+  #   timeout: 30
+  #   module: transform
+  #   include:
+  #     - transform
+  #   events:
+  #     - sqs: 
+  #         arn: arn:aws:sqs:eu-west-1:579154747729:Team2extracttotransform
+  #         batchSize: 10
+  #   iamRoleStatements: 
+  #     - Effect: 'Allow'
+  #       Action:
+  #         - sqs:ReceiveMessage
+  #       Resource: !GetAtt Team2extracttotransform.Arn
+  #     - Effect: 'Allow'
+  #       Action:
+  #         - sqs:SendMessage
+  #       Resource: !GetAtt Team2transformtoload.Arn
 
   Team-2-Load-Lambda:
     runtime: python3.8
@@ -80,6 +80,10 @@ functions:
           arn: arn:aws:sqs:eu-west-1:579154747729:Team2transformtoload
           batchSize: 10
     iamRoleStatements:
+      - Effect: 'Allow'
+        Action:
+          - lambda:UpdateEventSourceMapping
+        Resource: arn:aws:lambda:eu-west-1:579154747729:event-source-mapping:a99f081e-f665-446d-9e57-c39a875b6cfd 
       - Effect: 'Allow'
         Action:
           - sqs:ReceiveMessage
