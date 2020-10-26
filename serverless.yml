@@ -48,8 +48,9 @@ functions:
     include:
       - transform
     events:
-      - sqs: arn:aws:sqs:eu-west-1:579154747729:Team2extracttotransform
-        batchSize: 1
+      - sqs: 
+          arn: arn:aws:sqs:eu-west-1:579154747729:Team2extracttotransform
+          batchSize: 1
     iamRoleStatements: 
       - Effect: 'Allow'
         Action:
@@ -75,8 +76,9 @@ functions:
       subnetIds:
         - subnet-0b0c0f6ea99bda1ee
     events:
-      - sqs: arn:aws:sqs:eu-west-1:579154747729:Team2transformtoload
-        batchSize: 1
+      - sqs: 
+          arn: arn:aws:sqs:eu-west-1:579154747729:Team2transformtoload
+          batchSize: 1
     iamRoleStatements:
       - Effect: 'Allow'
         Action:
