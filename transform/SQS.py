@@ -19,7 +19,7 @@ def send_sqs_message(queue_name, msg_body):
 
     for sub_list in lst:
         print(sys.getsizeof(json.dumps(sub_list)))
-        msg = sqs_client.send_message(QueueUrl="https://sqs.eu-west-1.amazonaws.com/579154747729/Team2transformtoload", MessageBody=json.dumps(msg_body))
+        msg = sqs_client.send_message(QueueUrl="https://sqs.eu-west-1.amazonaws.com/579154747729/Team2transformtoload", MessageBody=json.dumps(sub_list))
     
     return
 
