@@ -15,6 +15,6 @@ def lambda_handler(event, context):
         data = get_csv_data_from_bucket(bucketname, file_key)
         send_sqs_data(data, file_key)
     else:
-        big_red_button(True, "11/10/2020", "11/10/2020", bucketname) # "dd/mm/yyyy", To get 1 day, have the dates the same
+        big_red_button(True, "24/10/2020", "27/10/2020", bucketname) # "dd/mm/yyyy", To get 1 day, have the dates the same
 
     return
