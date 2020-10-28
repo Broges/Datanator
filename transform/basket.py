@@ -1,15 +1,18 @@
 from basket_class import Basket
 
-#[[29/09/2020 09:00, Isle of Wight, 
-
 def clean_basket_data(data):
     lst = []
     
-    location = data[0][1].replace(' ', '')
+    if "Pont-y-p" in data[0][1]:
+        location = "Pontypool"
+    else:
+        location = data[0][1].strip(' ')
+    
+    code_location = location.replace(' ', '')
     date = data[0][0]
     date = date[0:10]
-    basket_id = (f"{location}_{date}_bask")
-    transaction_id = (f"{location}_{date}_trans")
+    basket_id = (f"{code_location}_{date}_bask")
+    transaction_id = (f"{code_location}_{date}_trans")
     basket_number = 1
     transaction_number = 1
     

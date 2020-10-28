@@ -15,7 +15,6 @@ def clean_transaction_data(data):
     
     lst = []
     
-
     for line in data:
         new_transaction_id = f"{transaction_id}_{transaction_number}"
         lst.append([new_transaction_id, location, line[2], line[0], float(line[-3])])

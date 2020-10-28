@@ -12,7 +12,7 @@
     "python.testing.pytestArgs": [
         "extract"
     ],
-    "python.pythonPath": "C:\\Users\\Harry\\AppData\\Local\\Programs\\Python\\Python35-32\\python.exe",
+    "python.pythonPath": "C:\\Users\\Harry\\AppData\\Local\\Programs\\Python\\Python38-32\\python.exe",
     "python.testing.nosetestArgs": [
         "extract"
     ]
