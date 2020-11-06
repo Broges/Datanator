@@ -6,7 +6,10 @@ This project involves a ficticous café, called **Infinity Café**.
 
 Me and my team gave a live presentation and demonstration of this product, with extensive details and Q&A from real professionals.
 I ***HIGHLY*** recommend viewing the presentation instead of reading this readme.
-Here is the presentation: #link here#
+Here is the presentation:
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=https://www.youtube.com/watch?v=K5GBT6oQDtk&feature=youtu.be&ab_channel=Broges
+" target="_blank"><img src="https://www.youtube.com/watch?v=K5GBT6oQDtk&feature=youtu.be&ab_channel=Broges/0.jpg" 
+alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
 
 ## Scenario
 
